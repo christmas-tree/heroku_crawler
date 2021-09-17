@@ -63,13 +63,13 @@ def on_new_item(new_items):
     subj = "Chú tôi lên bài rồi"
     receivers = json.loads(os.environ.get('HIEUTV_MAILTO'))
     to = list(map(lambda email: {"email": email}, receivers))
-    send_template_email(to, "mail.html", subj, {"items": new_items})
+    send_template_email("mail.html", to, subj, {"items": new_items})
 
 def on_failure(error):
     subj = "Lỗi Heroku"
     receivers = json.loads(os.environ.get('ERROR_MAILTO'))
     to = list(map(lambda email: {"email": email}, receivers))
-    send_template_email(to, "error.html", subj, {"error": error})
+    send_template_email("error.html", to, subj, {"error": error})
 
 def set_record(item_ids):
     doc_ref.set({
@@ -97,7 +97,7 @@ def check():
         options.add_argument('--no-sandbox')
         options.add_argument('window-size=1920x1080')
         options.binary_location = os.environ.get('GOOGLE_CHROME_PATH')
-        driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), chrome_options=options)
+        driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), options=options)
 
     driver.get("https://www.hieu.tv/login")
     email_input = driver.find_element_by_xpath('//*[@id="member_email"]')
