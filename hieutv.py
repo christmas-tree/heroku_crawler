@@ -1,5 +1,7 @@
 import os
+import time
 import json
+import sys
 import datetime
 from selenium import webdriver
 from google.cloud import firestore
@@ -9,6 +11,11 @@ import sib_api_v3_sdk
 from sib_api_v3_sdk.rest import ApiException
 import traceback
 import logging
+
+Log_Format = "%(levelname)s %(asctime)s - %(message)s"
+logging.basicConfig(stream = sys.stdout,
+                    format = Log_Format, 
+                    level = logging.INFO)
 
 DEV = os.environ.get('DEV')
 
@@ -119,13 +126,20 @@ def check():
     set_record(all_item_ids)
 
     if len(new_items) > 0:
+        logging.info("Found {} new items.".format(len(new_items)))
         on_new_item(new_items)
+    else:
+        logging.info("No new item found.")
 
     driver.quit()
 
 def run_check():
     try:
+        start_time = time.time()
+        logging.info("Running check on hieu.tv")
         check()
+        duration = time.time() - start_time
+        logging.info("Checking completed on hieu.tv. Job took {:.2f}s".format(duration))
     except Exception as e:
         err = traceback.format_exc()
         logging.error(err)
