@@ -5,3 +5,4 @@ Flask==2.0.1
 msedge_selenium_tools==3.141.3
 protobuf==3.18.0
 google-cloud-firestore
+gunicorn==20.1.0
