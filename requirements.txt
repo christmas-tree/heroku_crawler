@@ -7,3 +7,4 @@ google_api_python_client==2.21.0
 protobuf==3.18.0
 google-cloud-firestore
 gunicorn==20.1.0
+grpc
