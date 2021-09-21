@@ -70,7 +70,7 @@ def on_new_item(new_items):
     subj = "Chú tôi lên bài rồi"
     receivers = json.loads(os.environ.get('HIEUTV_MAILTO'))
     to = list(map(lambda email: {"email": email}, receivers))
-    send_template_email("mail.html", to, subj, {"items": new_items})
+    send_template_email("hieutv/mail.html", to, subj, {"items": new_items})
 
 def on_failure(error):
     subj = "Lỗi Heroku"

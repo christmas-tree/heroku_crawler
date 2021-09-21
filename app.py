@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    Popen(['python', 'hieutv.py'])
+    Popen(['sh', 'runcrawl.sh'])
     return "<p>We're running!</p>"
 
 if __name__ == "__main__":
