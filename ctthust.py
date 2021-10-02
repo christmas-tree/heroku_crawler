@@ -225,19 +225,18 @@ def check():
         changed = set_record(record, item)
         if changed:
             changed_records.append(record)
-
-    update_sheet_records(records)
-
-    if len(changed_records) > 0:
-        logging.info("Found {} new items.".format(len(changed_records)))
-        print(changed_records)
-        changed_records_arr = changed_records
-        changed_records = map(lambda record: convert_item_to_dict(record), changed_records_arr)
-        on_new_item(changed_records)
-    else:
-        logging.info("No new item found.")
-
+    
     driver.quit()
+    if len(changed_records) == 0:
+        logging.info("No new item found.")
+        return
+    
+    logging.info("Found {} new items: {}".format(len(changed_records), changed_records))
+    update_sheet_records(records)
+    changed_records_arr = changed_records
+    changed_records = map(lambda record: convert_item_to_dict(record), changed_records_arr)
+    on_new_item(changed_records)
+
 
 def run_check():
     global service
