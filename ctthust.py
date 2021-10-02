@@ -152,7 +152,7 @@ def check():
         options.add_argument('--headless')
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--no-sandbox')
-        options.add_argument('window-size=1920x1080')
+        options.add_argument('--window-size=1920x1080')
         options.binary_location = os.environ.get('GOOGLE_CHROME_PATH')
         driver = webdriver.Chrome(executable_path=os.environ.get('CHROMEDRIVER_PATH'), options=options)
 
@@ -175,15 +175,12 @@ def check():
 
     rows = driver.find_elements_by_xpath('//table[contains(@id, "gvCourseMarks")]//tr[@class="dxgvDataRow"]')
     items = list(map(extract_item_full, rows))
-    logging.info("items: {}".format(items))
     driver.get("https://dt-ctt.hust.edu.vn/Students/StudentCheckInputGradeTerm.aspx")
     rows = driver.find_elements_by_xpath('//table[contains(@id, "gvClassGrade")]//tr[contains(@class, "dxgvDataRow")]')
     temp_items = list(map(extract_item_temp, rows))
-    logging.info("temp_items: {}".format(temp_items))
 
     changed_records = []
     records = fetch_sheet_records().get("values")
-    logging.info("records: {}".format(records))
 
     record_dict = dict()
     for record in records:
