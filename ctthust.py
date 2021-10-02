@@ -175,13 +175,16 @@ def check():
 
     rows = driver.find_elements_by_xpath('//table[contains(@id, "gvCourseMarks")]//tr[@class="dxgvDataRow"]')
     items = list(map(extract_item_full, rows))
-
+    logging.info("items: {}".format(items))
     driver.get("https://dt-ctt.hust.edu.vn/Students/StudentCheckInputGradeTerm.aspx")
     rows = driver.find_elements_by_xpath('//table[contains(@id, "gvClassGrade")]//tr[contains(@class, "dxgvDataRow")]')
     temp_items = list(map(extract_item_temp, rows))
+    logging.info("temp_items: {}".format(temp_items))
 
     changed_records = []
     records = fetch_sheet_records().get("values")
+    logging.info("records: {}".format(records))
+
     record_dict = dict()
     for record in records:
         course_id = record[COLS['course_id']]
