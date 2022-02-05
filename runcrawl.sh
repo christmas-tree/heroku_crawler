@@ -1,2 +1,2 @@
 python hieutv.py
-python ctthust.py
+# python ctthust.py

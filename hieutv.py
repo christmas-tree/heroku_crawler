@@ -92,10 +92,10 @@ def get_record():
 
 def check():
     if DEV:
-        from msedge.selenium_tools import Edge, EdgeOptions
-        options = EdgeOptions()
-        options.use_chromium = True
-        driver = Edge(options = options)
+        from msedge.selenium_tools import Edge
+        desired_cap = {}
+        driver = Edge(executable_path="driver/msedgedriver", capabilities=desired_cap)
+        driver.set_window_size(1920, 1080)
     else:
         options = webdriver.ChromeOptions()
         options.add_argument('--disable-gpu')
