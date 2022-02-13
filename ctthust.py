@@ -10,6 +10,9 @@ import sib_api_v3_sdk
 from sib_api_v3_sdk.rest import ApiException
 import traceback
 import logging
+from dotenv import load_dotenv
+
+load_dotenv()
 
 Log_Format = "%(levelname)s %(asctime)s - %(message)s"
 logging.basicConfig(stream = sys.stdout,
@@ -73,7 +76,8 @@ def on_failure(error):
     subj = "Lỗi Heroku"
     receivers = json.loads(os.environ.get('ERROR_MAILTO'))
     to = list(map(lambda email: {"email": email}, receivers))
-    send_template_email("error.html", to, subj, {"error": error})
+    if not DEV:
+        send_template_email("error.html", to, subj, {"error": error})
 
 def update_sheet_records(values):
     sheets = service.spreadsheets()

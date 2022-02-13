@@ -11,6 +11,9 @@ import sib_api_v3_sdk
 from sib_api_v3_sdk.rest import ApiException
 import traceback
 import logging
+from dotenv import load_dotenv
+
+load_dotenv()
 
 Log_Format = "%(levelname)s %(asctime)s - %(message)s"
 logging.basicConfig(stream = sys.stdout,
@@ -36,6 +39,7 @@ db = firestore.Client(credentials=credentials)
 doc_ref = db.collection(COLLECTION_NAME).document(DOCUMENT_ID)
 
 def extract_item(syllabus_item_element):
+    print(syllabus_item_element.get_attribute('innerHTML'))
     return {
         "id": syllabus_item_element.get_attribute("id"),
         "header": syllabus_item_element.find_element_by_xpath('.//p[@class="syllabus__title"]').text.strip(),
@@ -76,7 +80,8 @@ def on_failure(error):
     subj = "Lỗi Heroku"
     receivers = json.loads(os.environ.get('ERROR_MAILTO'))
     to = list(map(lambda email: {"email": email}, receivers))
-    send_template_email("error.html", to, subj, {"error": error})
+    if not DEV:
+        send_template_email("error.html", to, subj, {"error": error})
 
 def set_record(item_ids):
     doc_ref.set({
